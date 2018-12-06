@@ -1,0 +1,23 @@
+{
+  "apps" : [{
+    "name" : "NFWeb",         //名称
+    "script": "bin/www.js",   //程序入口
+//    "cwd": "./",             //根目录
+//    "watch":[                 //需要监控的目录(目录改变的时候重启)
+//      "bin",
+//      "config",
+//      "lib",
+//      "mongodb",
+//      "router"
+//    ],
+    "env": {
+      "NODE_ENV": "production"
+    },
+    "env_dev": {
+      "NODE_ENV": "development"
+    },
+    "error_file":"logs/app-err.log",//错误输出日志
+    "out_file":"logs/app-out.log",  //日志
+    "log_date_format":"YYYY-MM-DD HH:mm Z" //日期格式
+  }]
+}
