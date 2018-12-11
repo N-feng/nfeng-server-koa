@@ -36,7 +36,7 @@ router.all('*', async (ctx, next) => {
 });
 
 // 退出登录
-router.get('logOut', async (ctx) => {
+router.get('/logOut', async (ctx) => {
     Check.logOut(ctx);
     await Server.logOut(ctx);
     ctx.sendSuccess('', '退出成功');
