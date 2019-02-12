@@ -6,24 +6,33 @@ class Check extends BaseCheck {
     }
     /**
      * 获取凭证
-     * @param ctx 环境上下文
      */
     static getAuthorization(ctx) {
         ctx.nf_validate.isStrings(['Key', 'Method']);
     }
     /**
      * 获取cdn上传地址
-     * @param ctx 环境上下文
      */
     static getCdnUpload(ctx) {
         ctx.nf_validate.isStrings(['Key', 'Method']);
     }
     /**
      * 获取签名
-     * @param ctx 环境上下文
      */
     static getSignature(ctx) {
         ctx.nf_validate.isStrings(['Key', 'Method']);
+    }
+    /**
+     * 获取桶列表
+     */
+    static getBucketList(ctx) {
+        ctx.nf_validate.isStrings(['Prefix']);
+    }
+    /**
+     * 删除文件
+     */
+    static deleteObject(ctx) {
+        ctx.nf_validate.isStrings(['Key'])
     }
 }
 

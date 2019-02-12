@@ -31,10 +31,28 @@ router.get('/getCdnUpload', async (ctx) => {
 /**
  * 获取签名
  */
-router.get('/getSignature', async (ctx) => {
+router.post('/getSignature', async (ctx) => {
     Check.getSignature(ctx)
     const data = await Server.getSignature(ctx)
     ctx.sendSuccess(data)
+})
+
+/**
+ * 获取桶列表
+ */
+router.get('/getBucketList', async (ctx) => {
+    Check.getBucketList(ctx)
+    const data = await Server.getBucketList(ctx)
+    ctx.sendSuccess(data)
+})
+
+/**
+ * 删除文件
+ */
+router.get('/deleteObject', async (ctx) => {
+    Check.deleteObject(ctx)
+    const data = await Server.deleteObject(ctx)
+    ctx.sendSuccess(data, '删除成功!')
 })
 
 module.exports = router

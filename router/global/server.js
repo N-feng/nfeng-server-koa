@@ -24,12 +24,17 @@ class Server {
     }
 
     static async getSignature (ctx) {
-        const { Key, Method } = ctx.vals
-        const options = {
-            Key: Key,
-            Method: Method,
-        }
-        const baseData = cdn.getSignature(options)
+        const baseData = cdn.getSignature(ctx.vals)
+        return baseData
+    }
+
+    static async getBucketList (ctx) {
+        const baseData = await cdn.getBucketList(ctx.vals)
+        return baseData
+    }
+
+    static async deleteObject (ctx) {
+        const baseData = await cdn.deleteObject(ctx.vals)
         return baseData
     }
 }
