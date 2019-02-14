@@ -15,6 +15,12 @@ switch (process.env.NODE_ENV) {
     case 'production': // 生产环境
         require('dotenv').config({ path: './env/production.env' });
         break;
+    case '92': // 92环境
+        require('dotenv').config({ path: './env/92.env' });
+        break;
+    case '94': // 94环境
+        require('dotenv').config({ path: './env/94.env' });
+        break;
 }
 
 /*

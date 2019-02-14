@@ -5,6 +5,8 @@
   "scripts": {
     "start": "node bin/www",
     "dev": "./node_modules/.bin/nodemon bin/www",
+    "dev92": "cross-env NODE_ENV=92 ./node_modules/.bin/nodemon bin/www",
+    "dev94": "cross-env NODE_ENV=94 ./node_modules/.bin/nodemon bin/www",
     "prd": "pm2 start bin/www",
     "test": "echo \"Error: no test specified\" && exit 1",
     "pm2": "pm2 start ./bin/processes.json",
@@ -32,6 +34,7 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
+    "cross-env": "^5.2.0",
     "nodemon": "^1.8.1"
   }
 }
