@@ -1,6 +1,6 @@
 {
   "apps" : [{
-    "name" : "NFWeb",
+    "name" : "NFServer",
     "script": "bin/www.js",
     "env": {
       "NODE_ENV": "production"
@@ -10,6 +10,9 @@
     },
     "env_dev94": {
       "NODE_ENV": "94"
+    },
+    "env_dev92": {
+      "NODE_ENV": "92"
     },
     "error_file":"logs/app-err.log",
     "out_file":"logs/app-out.log",

@@ -11,8 +11,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "pm2": "pm2 start ./bin/processes.json",
     "pm2dev": "pm2 start ./bin/processes.json --env dev",
-    "pm2dev94": "pm2 start ./bin/processes.json --env dev94"
-
+    "pm2dev94": "pm2 start ./bin/processes.json --env dev94",
+    "pm2dev92": "pm2 start ./bin/processes.json --env dev92"
   },
   "dependencies": {
     "co": "^4.6.0",
