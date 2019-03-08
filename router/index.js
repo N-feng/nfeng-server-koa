@@ -7,6 +7,11 @@ const router = new Router({
     // prefix: '/api'
 })
 
+router.get('/', async function (ctx, next) {
+    const filePath = './views/index.html'
+    ctx.sendHtmlFile(filePath)
+})
+
 router.use(admin_router.routes(), admin_router.allowedMethods())
 router.use(login_router.routes(), login_router.allowedMethods())
 router.use(global_router.routes(), global_router.allowedMethods())

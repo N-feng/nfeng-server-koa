@@ -3,4 +3,4 @@ node_modules/
 package-lock.json
 logs/app-err.log
 logs/app-out.log
-env
+env/
