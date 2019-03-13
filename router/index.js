@@ -7,6 +7,12 @@ const router = new Router({
     // prefix: '/api'
 })
 
+router.all('*', (ctx, next) => {
+    // 允许来自所有域名请求
+    ctx.set('Access-Control-Allow-Origin', '*');
+    next();
+})
+
 router.get('/', async function (ctx, next) {
     const filePath = './views/index.html'
     ctx.sendHtmlFile(filePath)
