@@ -6,6 +6,7 @@ const http = require('http');
 const Logger = require('koa-logger');
 const NFKoaExtension = require('./lib/extension/NFKoaExtension');
 const NFError = require('./lib/extension/NFError');
+const KoaCors = require('koa2-cors')
 
 // mongodb
 require('./mongodb/NFMongo');
@@ -16,9 +17,14 @@ const app = new Koa();
 // 错误处理
 app.use(NFError);
 
-// 输出打印 =======================================
+// 输出调试打印
 if (Config.debug) {
     app.use(Logger())
+}
+
+// 跨域
+if (process.env.CORS === 'true') {
+    app.use(KoaCors())
 }
 
 app.use(bodyParser());
