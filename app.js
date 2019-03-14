@@ -1,7 +1,6 @@
 const Koa = require('koa');
 const Bouncer = require('koa-bouncer');
 const bodyParser = require('koa-bodyparser');
-const Config = require('./config/index');
 const http = require('http');
 const Logger = require('koa-logger');
 const NFKoaExtension = require('./lib/extension/NFKoaExtension');
