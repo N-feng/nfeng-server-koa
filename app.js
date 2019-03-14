@@ -23,9 +23,9 @@ if (Config.debug) {
 }
 
 // 跨域
-if (process.env.CORS === 'true') {
-    app.use(KoaCors())
-}
+// if (process.env.CORS === 'true') {
+//     app.use(KoaCors())
+// }
 
 app.use(bodyParser());
 
