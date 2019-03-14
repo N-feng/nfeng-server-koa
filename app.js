@@ -18,14 +18,10 @@ const app = new Koa();
 app.use(NFError);
 
 // 输出调试打印
-if (Config.debug) {
-    app.use(Logger())
-}
+app.use(Logger())
 
 // 跨域
-if (process.env.CORS === 'true') {
-    // app.use(KoaCors())
-}
+app.use(KoaCors())
 
 app.use(bodyParser());
 
@@ -39,7 +35,7 @@ app.use(NFKoaExtension);
 const router = require('./router/index');
 app.use(router.routes(), router.allowedMethods());
 
-if (Config.debug) {
+if (process.env.DEBUG) {
     http.createServer(app.callback()).listen(process.env.PORT);
 } else {
     http.createServer(app.callback()).listen(80);
