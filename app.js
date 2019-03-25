@@ -40,7 +40,7 @@ app.use(router.routes(), router.allowedMethods());
 // https 密钥
 const options = {
   key: fs.readFileSync(Config.ssl.keyPath),
-  crt: fs.readFileSync(Config.ssl.crtPath),
+  cert: fs.readFileSync(Config.ssl.certPath),
 }
 
 if (process.env.DEBUG) {
