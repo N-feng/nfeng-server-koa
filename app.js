@@ -1,12 +1,14 @@
 const Koa = require('koa');
 const Bouncer = require('koa-bouncer');
 const bodyParser = require('koa-bodyparser');
+const Config = require('./config/index');
 const http = require('http');
-// const https = require('https')
+const https = require('https');
+const fs = require('fs');
 const Logger = require('koa-logger');
 const NFKoaExtension = require('./lib/extension/NFKoaExtension');
 const NFError = require('./lib/extension/NFError');
-const KoaCors = require('koa2-cors')
+const KoaCors = require('koa2-cors');
 
 // mongodb
 require('./mongodb/NFMongo');
@@ -35,8 +37,15 @@ app.use(NFKoaExtension);
 const router = require('./router/index');
 app.use(router.routes(), router.allowedMethods());
 
+// https 密钥
+const options = {
+  key: fs.readFileSync(Config.ssl.keyPath),
+  crt: fs.readFileSync(Config.ssl.crtPath),
+}
+
 if (process.env.DEBUG) {
     http.createServer(app.callback()).listen(process.env.PORT);
 } else {
     http.createServer(app.callback()).listen(80);
+    https.createServer(options, app.callback()).listen(443);
 }
