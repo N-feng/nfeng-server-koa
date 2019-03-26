@@ -1,7 +1,9 @@
 const Path = require('path')
 
+const Nf_DEBUG = process.env.NODE_ENV !== "production"
+
 const config = {
-    debug: process.env.DEBUG,
+    debug: Nf_DEBUG,
     // https 证书
     ssl: {
       keyPath: Path.resolve(__dirname, '../env/ssl/Nginx/2_nfeng.net.cn.key'),

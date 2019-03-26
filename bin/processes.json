@@ -8,11 +8,8 @@
     "env_dev": {
       "NODE_ENV": "development"
     },
-    "env_dev94": {
-      "NODE_ENV": "94"
-    },
-    "env_dev92": {
-      "NODE_ENV": "92"
+    "env_nginx": {
+      "NODE_ENV": "nginx"
     },
     "error_file":"logs/app-err.log",
     "out_file":"logs/app-out.log",

@@ -43,7 +43,8 @@ const options = {
   cert: fs.readFileSync(Config.ssl.certPath),
 }
 
-if (process.env.DEBUG) {
+console.log(`DEBUG is ${Config.debug}`)
+if (Config.debug) {
     http.createServer(app.callback()).listen(process.env.PORT);
 } else {
     http.createServer(app.callback()).listen(80);

@@ -6,7 +6,8 @@
     "start": "cross-env NODE_ENV=production node bin/www",
     "dev": "node bin/www",
     "pm2": "pm2 start ./bin/processes.json",
-    "pm2dev": "pm2 start ./bin/processes.json --env dev"
+    "pm2dev": "pm2 start ./bin/processes.json --env dev",
+    "pm2nginx": "pm2 start ./bin/processes.json --env nginx"
   },
   "dependencies": {
     "co": "^4.6.0",
