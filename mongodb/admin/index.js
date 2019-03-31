@@ -8,10 +8,10 @@ class AdminMongodb extends BaseMongodb {
     }
 
     // 添加用户
-    static async addUser (user, pass) {
+    static async addUser (username, password) {
         const p = {
-            user,
-            pass
+            username,
+            password
         };
         return new Model(p).save();
     }

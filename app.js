@@ -9,6 +9,7 @@ const Logger = require('koa-logger');
 const NFKoaExtension = require('./lib/extension/NFKoaExtension');
 const NFError = require('./lib/extension/NFError');
 const KoaCors = require('koa2-cors');
+const KoaValidator = require('./utils/nfeng-validate/koa-validate');
 
 // mongodb
 require('./mongodb/NFMongo');
@@ -33,6 +34,9 @@ app.use(Bouncer.middleware());
 // 设置自定义中间件
 app.use(NFKoaExtension);
 
+// 参数验证中间件
+app.use(KoaValidator());
+
 // router definition
 const router = require('./router/index');
 app.use(router.routes(), router.allowedMethods());
@@ -43,7 +47,6 @@ const options = {
   cert: fs.readFileSync(Config.ssl.certPath),
 }
 
-console.log(`DEBUG is ${Config.debug}`)
 if (Config.debug) {
     http.createServer(app.callback()).listen(process.env.PORT);
 } else {

@@ -13,18 +13,18 @@ router.post('/register', async (ctx) => {
     ctx.sendSuccess(data, '创建成功!');
 });
 
+// 登录接口
+router.get('/login', async (ctx) => {
+    Check.login(ctx);
+    const data = await Server.login(ctx);
+    ctx.sendSuccess(data, '登录成功!');
+});
+
 // 删除用户
 router.post('/delUser', async (ctx) => {
     Check.delUser(ctx);
     const data = await Server.delUser(ctx);
     ctx.sendSuccess(data, '删除成功!');
-});
-
-// 登录接口
-router.post('/login', async (ctx) => {
-    Check.login(ctx);
-    const data = await Server.login(ctx);
-    ctx.sendSuccess(data, '登录成功!');
 });
 
 // ===========================  数据拦截  =================================
