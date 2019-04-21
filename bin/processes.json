@@ -1,12 +1,14 @@
 {
   "apps" : [{
-    "name" : "NFServer",                    // 名称
-    "script": "bin/www.js",                 // 程序入口
-    "cwd": "./",                            // 根目录
-    "watch": [                              // 需要监控的目录(目录改变的时候重启)
+    "name" : "NFServer",
+    "script": "bin/www.js",
+    "cwd": "./",
+    "watch": [
       "lib",
+      "mongodb",
       "router",
       "utils",
+      "nfeng-utils"
     ],
     "env": {
       "NODE_ENV": "production"
@@ -17,8 +19,8 @@
     "env_nginx": {
       "NODE_ENV": "nginx"
     },
-    "error_file":"logs/app-err.log",        // 错误输出日志
-    "out_file":"logs/app-out.log",          // 日志
-    "log_date_format":"YYYY-MM-DD HH:mm Z"  // 日期格式
+    "error_file":"logs/app-err.log", 
+    "out_file":"logs/app-out.log",
+    "log_date_format":"YYYY-MM-DD HH:mm Z"
   }]
 }

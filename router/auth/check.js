@@ -6,6 +6,10 @@ class Check extends BaseCheck {
         super()
     }
 
+    static signup (ctx) {
+        ctx.isStrings(['username', 'password'])
+    }
+
     static register (ctx) {
         ctx.nf_validate.isStrings(['username','password']);
         const { username, password } = ctx.vals;

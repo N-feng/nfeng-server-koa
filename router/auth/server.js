@@ -6,7 +6,7 @@ const BaseServer = require('../base/baseServer');
 
 class Server extends BaseServer {
 
-    static async register (ctx) {
+    static async signup (ctx) {
         // 获取账号密码
         const { username, password } = ctx.vals;
         const passwordMD5 = NFTool.MD5(password);
@@ -22,7 +22,7 @@ class Server extends BaseServer {
 
     static async login (ctx) {
         // 获取账号密码
-        const {username, password} = ctx.vals;
+        const { username, password } = ctx.vals;
         const passwordMD5 = NFTool.MD5(password);
         // 查找账户
         let userData = await AdminMongodb.findUser(username);

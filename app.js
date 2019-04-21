@@ -9,7 +9,8 @@ const Logger = require('koa-logger');
 const NFKoaExtension = require('./lib/extension/NFKoaExtension');
 const NFError = require('./lib/extension/NFError');
 const KoaCors = require('koa2-cors');
-const KoaValidator = require('./utils/nfeng-validate/koa-validate');
+// const KoaValidator = require('./utils/nfeng-validate/koa-validate');
+const KoaValidator = require('../nfeng-utils/koa-validator/validate');
 
 // mongodb
 require('./mongodb/NFMongo');

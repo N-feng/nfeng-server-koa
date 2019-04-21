@@ -17,9 +17,9 @@ class AdminMongodb extends BaseMongodb {
     }
 
     // 查找admin账户
-    static async findUser (user, admin) {
+    static async findUser (username, password) {
         const p = {
-            user
+            username
         };
         return await Model.findOne(p);
     }

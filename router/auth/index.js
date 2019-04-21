@@ -7,14 +7,14 @@ const router = new Router({
 });
 
 // 添加用户
-router.post('/register', async (ctx) => {
-    Check.register(ctx);
-    const data = await Server.register(ctx);
+router.post('/signup', async (ctx) => {
+    Check.signup(ctx);
+    const data = await Server.signup(ctx);
     ctx.sendSuccess(data, '创建成功!');
 });
 
 // 登录接口
-router.get('/login', async (ctx) => {
+router.post('/login', async (ctx) => {
     Check.login(ctx);
     const data = await Server.login(ctx);
     ctx.sendSuccess(data, '登录成功!');
