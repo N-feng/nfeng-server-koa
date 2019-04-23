@@ -13,7 +13,7 @@ const KoaCors = require('koa2-cors');
 const KoaValidator = require('../nfeng-utils/koa-validator/validate');
 
 // mongodb
-require('./mongodb/NFMongo');
+require('./mongodb');
 
 // 创建App
 const app = new Koa();

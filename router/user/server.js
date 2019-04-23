@@ -1,31 +1,30 @@
-const NFTool = require('../../lib/extension/NFTool');
-const AdminMongodb = require('../../mongodb/admin/index');
 const ErrorCode = require('../../config/errorCode');
-const { getToken } = require('../../lib/jsonwebtoken');
-const BaseServer = require('../base/baseServer');
+const Token = require('../../lib/token');
+const MD5 = require('../../lib/md5');
+const UserMongodb = require('../../mongodb/user');
 
-class Server extends BaseServer {
+class Server {
 
     static async signup (ctx) {
         // 获取账号密码
         const { username, password } = ctx.vals;
-        const passwordMD5 = NFTool.MD5(password);
+        const passwordMD5 = MD5(password);
         // 查找账户
-        let userData = await AdminMongodb.findUser(username);
+        let userData = await UserMongodb.findUser(username);
         // 如果用户已经存在直接抛出错误
         if (userData) {
             throw ErrorCode.admin.user_exist;
         }
-        const data = await AdminMongodb.addUser(username, passwordMD5);
+        const data = await UserMongodb.addUser(username, passwordMD5);
         return data;
     }
 
     static async login (ctx) {
         // 获取账号密码
         const { username, password } = ctx.vals;
-        const passwordMD5 = NFTool.MD5(password);
+        const passwordMD5 = MD5(password);
         // 查找账户
-        let userData = await AdminMongodb.findUser(username);
+        let userData = await UserMongodb.findUser(username);
         // 如果没有找到用户直接返回错误
         if (!userData) {
             throw ErrorCode.admin.user_nonentity;
@@ -37,14 +36,14 @@ class Server extends BaseServer {
         // 判断账号密码是否正确
         if (passwordMD5 != userData.password) {
             // 记录登录错误加1
-            AdminMongodb.addLoginErr(userData);
+            UserMongodb.addLoginErr(userData);
             throw ErrorCode.admin.login_err;
         }
         // 清除登录错误
-        AdminMongodb.clearLoginErr(userData);
+        UserMongodb.clearLoginErr(userData);
         // ==== 用户通过验证 ====
         // 设置令牌
-        const token = getToken(userData);
+        const token = Token.getToken(userData);
         const resData = {
             username: userData.username,
             avatar: userData.avatar
@@ -55,10 +54,18 @@ class Server extends BaseServer {
         }
     }
 
-    // 拦截(判断用户是否登录)
-    static async intercept (ctx) {
-        const userDate = await this.getUserData(ctx);
-        ctx.userData = userDate;
+    static async getUserList () {
+        // 查找账户
+        let userData = await UserMongodb.findUserList();
+        console.log(userData)
+        const resData = userData.map(item => {
+            return {
+                user: item.user,
+                pass: item.pass,
+                icon: item.icon
+            }
+        });
+        return resData;
     }
 
     static async logOut (ctx) {}
@@ -76,7 +83,7 @@ class Server extends BaseServer {
         // 获取账号密码
         const {user, pass} = ctx.vals;
         // 查找账户
-        let userData = await AdminMongodb.findUserRemove(user, pass);
+        let userData = await UserMongodb.findUserRemove(user, pass);
         // 如果没有找到用户直接返回错误
         if (!userData) {
             throw ErrorCode.admin.user_nonentity;
@@ -86,6 +93,11 @@ class Server extends BaseServer {
             icon: userData.icon
         }
         return resData;
+    }
+
+    static async getUser (ctx) {
+        const token = ctx.request.header.token;
+        return await Token.getUser(token);
     }
 
 }

@@ -1,9 +1,4 @@
-const BaseCheck = require('../base/baseCheck')
-
-class Check extends BaseCheck {
-    constructor() {
-        super()
-    }
+class Check {
     /**
      * 获取凭证
      */

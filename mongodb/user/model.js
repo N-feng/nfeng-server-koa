@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const adminSchema = new Schema({
+const UserSchema = new Schema({
     'username': {type: String, default: ''},
     'password': {type: String, default: ''},
     'loginErrNum': {type: Number, default: 0},  // 登录错误次数
@@ -9,6 +9,6 @@ const adminSchema = new Schema({
     'avatar': {type: String, default: ''}
 });
 
-const Admin = mongoose.model('Admin', adminSchema, 'admins');
+const UserModel = mongoose.model('User', UserSchema, 'user');
 
-module.exports = Admin;
+module.exports = UserModel;
