@@ -16,8 +16,6 @@ class Check {
 
     static getList (ctx) {}
 
-    static logout (ctx) {}
-
 }
 
 module.exports = Check;

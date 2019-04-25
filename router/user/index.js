@@ -35,9 +35,9 @@ router.post('/delete', async (ctx) => {
 });
 
 // 获取用户信息
-router.get('/info', async (ctx) => {
-    Check.getUserInfo(ctx);
-    const data = await Server.getUserInfo(ctx);
+router.post('/info', async (ctx) => {
+    Check.getUser(ctx);
+    const data = await Server.getUser(ctx);
     ctx.sendSuccess(data);
 });
 
@@ -46,13 +46,6 @@ router.post('/list', async (ctx) => {
     Check.getList(ctx);
     const data = await Server.getList(ctx);
     ctx.sendSuccess(data);
-});
-
-// 退出登录
-router.get('/logout', async (ctx) => {
-    Check.logout(ctx);
-    await Server.logout(ctx);
-    ctx.sendSuccess('', '退出成功');
 });
 
 module.exports = router;

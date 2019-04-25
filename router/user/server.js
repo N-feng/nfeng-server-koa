@@ -64,22 +64,16 @@ class Server {
             throw ErrorCode.admin.user_nonentity;
         }
         return {
-            username: user.user
+            username: user.username
         }
-    }
-
-    static async getUserInfo(ctx) {
-        let userData = ctx.userData;
-        const resData = {
-            user: userData.user,
-            icon: userData.icon
-        }
-        return resData;
     }
 
     static async getUser (ctx) {
         const token = ctx.request.header.token;
-        return await Token.getUser(token);
+        const user = await Token.getUser(token);
+        return {
+            username: user.username
+        }
     }
 
     static async getList() {
@@ -91,8 +85,6 @@ class Server {
         });
         return data;
     }
-
-    static async logout (ctx) {}
 
 }
 
