@@ -5,26 +5,26 @@ const UserMongodb = require('../../mongodb/user');
 
 class Server {
 
-    static async signup (ctx) {
+    static async signup(ctx) {
         // 获取账号密码
         const { username, password } = ctx.vals;
-        const passwordMD5 = MD5(password);
+        const MD5password = MD5(password);
         // 查找账户
-        let userData = await UserMongodb.findUser(username);
+        const userData = await UserMongodb.findUser(username);
         // 如果用户已经存在直接抛出错误
         if (userData) {
             throw ErrorCode.admin.user_exist;
         }
-        const data = await UserMongodb.addUser(username, passwordMD5);
+        const data = await UserMongodb.addUser(username, MD5password);
         return data;
     }
 
-    static async login (ctx) {
+    static async login(ctx) {
         // 获取账号密码
         const { username, password } = ctx.vals;
-        const passwordMD5 = MD5(password);
+        const MD5password = MD5(password);
         // 查找账户
-        let userData = await UserMongodb.findUser(username);
+        const userData = await UserMongodb.findUser(username);
         // 如果没有找到用户直接返回错误
         if (!userData) {
             throw ErrorCode.admin.user_nonentity;
@@ -34,7 +34,7 @@ class Server {
             throw ErrorCode.admin.login_max;
         }
         // 判断账号密码是否正确
-        if (passwordMD5 != userData.password) {
+        if (MD5password != userData.password) {
             // 记录登录错误加1
             UserMongodb.addLoginErr(userData);
             throw ErrorCode.admin.login_err;
@@ -54,40 +54,22 @@ class Server {
         }
     }
 
-    static async getUserList () {
-        // 查找账户
-        let userData = await UserMongodb.findUserList();
-        console.log(userData)
-        const resData = userData.map(item => {
-            return {
-                user: item.user,
-                pass: item.pass,
-                icon: item.icon
-            }
-        });
-        return resData;
-    }
-
-    static async logOut (ctx) {}
-
-    static async getUserInfo (ctx) {
-        let userData = ctx.userData;
-        const resData = {
-            user: userData.user,
-            icon: userData.icon
-        }
-        return resData;
-    }
-
-    static async delUser (ctx) {
+    static async delete(ctx) {
         // 获取账号密码
-        const {user, pass} = ctx.vals;
+        const { username } = ctx.vals;
         // 查找账户
-        let userData = await UserMongodb.findUserRemove(user, pass);
+        const user = await UserMongodb.delete(username);
         // 如果没有找到用户直接返回错误
-        if (!userData) {
+        if (!user) {
             throw ErrorCode.admin.user_nonentity;
         }
+        return {
+            username: user.user
+        }
+    }
+
+    static async getUserInfo(ctx) {
+        let userData = ctx.userData;
         const resData = {
             user: userData.user,
             icon: userData.icon
@@ -99,6 +81,18 @@ class Server {
         const token = ctx.request.header.token;
         return await Token.getUser(token);
     }
+
+    static async getList() {
+        let userList = await UserMongodb.findUserList();
+        const data = userList.map(item => {
+            return {
+                username: item.username,
+            }
+        });
+        return data;
+    }
+
+    static async logout (ctx) {}
 
 }
 

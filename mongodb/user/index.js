@@ -13,10 +13,9 @@ class AuthMongdb {
     }
 
     // 删除用户
-    static async findUserRemove (username, password) {
+    static async delete (username) {
         const param = {
-            username,
-            password
+            username
         };
         return await Model.findOneAndRemove(param);
     }

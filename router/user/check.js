@@ -8,17 +8,15 @@ class Check {
         ctx.isStrings(['username','password']);
     }
 
-    static getUserList (ctx) {}
-
-    static logOut (ctx) {}
-
-    static getUserInfo (ctx) {}
-
-    static delUser (ctx) {
-        ctx.nf_validate.isStrings(['user','pass']);
+    static delete (ctx) {
+        ctx.isStrings(['username','password']);
     }
 
     static getUser (ctx) {}
+
+    static getList (ctx) {}
+
+    static logout (ctx) {}
 
 }
 

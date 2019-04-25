@@ -28,30 +28,30 @@ router.all('*', async (ctx, next) => {
 });
 
 // 删除用户
-router.post('/delUser', async (ctx) => {
-    Check.delUser(ctx);
-    const data = await Server.delUser(ctx);
+router.post('/delete', async (ctx) => {
+    Check.delete(ctx);
+    const data = await Server.delete(ctx);
     ctx.sendSuccess(data, '删除成功!');
 });
 
 // 获取用户信息
-router.get('/getUserInfo', async (ctx) => {
+router.get('/info', async (ctx) => {
     Check.getUserInfo(ctx);
     const data = await Server.getUserInfo(ctx);
     ctx.sendSuccess(data);
 });
 
 // 获取用户列表信息
-router.post('/getUserList', async (ctx) => {
-    Check.getUserList(ctx);
-    const data = await Server.getUserList(ctx);
+router.post('/list', async (ctx) => {
+    Check.getList(ctx);
+    const data = await Server.getList(ctx);
     ctx.sendSuccess(data);
 });
 
 // 退出登录
-router.get('/logOut', async (ctx) => {
-    Check.logOut(ctx);
-    await Server.logOut(ctx);
+router.get('/logout', async (ctx) => {
+    Check.logout(ctx);
+    await Server.logout(ctx);
     ctx.sendSuccess('', '退出成功');
 });
 
