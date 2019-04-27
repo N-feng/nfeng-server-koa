@@ -4,6 +4,7 @@
     "script": "bin/www.js",
     "cwd": "./",
     "watch": [
+      "config",
       "lib",
       "mongodb",
       "router",
