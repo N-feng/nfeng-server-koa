@@ -1,5 +1,5 @@
 module.exports = {
-    roleTypeList: [
+    typeList: [
         {
             name: '一般用户',
             value: 'normal',
@@ -17,7 +17,7 @@ module.exports = {
             value: 'root',
         }
     ],
-    roleMenuList: [
+    menuList: [
         {
             path: '/auth/landing',
             name: 'landing',
