@@ -4,9 +4,9 @@ class AuthMongdb {
     constructor() {}
 
     // 添加用户
-    static async addUser (username, password) {
+    static async addUser (username, password, roleName) {
         const param = {
-            username, password
+            username, password, roleName
         };
         return new Model(param).save();
     }

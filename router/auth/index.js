@@ -1,6 +1,8 @@
 const Router = require('koa-router');
 const Server = require('./server');
 const Check = require('./check');
+const UserMongodb = require('../../mongodb/auth');
+const MD5 = require('../../lib/md5');
 
 const router = new Router({
     prefix: '/auth'
@@ -8,8 +10,18 @@ const router = new Router({
 
 // 添加用户
 router.post('/signup', async (ctx) => {
-    Check.signup(ctx);
-    const data = await Server.signup(ctx);
+    // Check.signup(ctx);
+    // const data = await Server.signup(ctx);
+    // ctx.sendSuccess(data, '创建成功!');
+    ctx.isStrings(['username','password','roleName']);
+    const { username, password, roleName } = ctx.vals;
+    const MD5password = MD5(password);
+    const userData = await UserMongodb.findUser(username);
+    console.log(roleName);
+    if (userData) {
+        throw ErrorCode.admin.user_exist;
+    }
+    const data = await UserMongodb.addUser(username, MD5password, roleName);
     ctx.sendSuccess(data, '创建成功!');
 });
 
@@ -43,8 +55,16 @@ router.post('/info', async (ctx) => {
 
 // 获取用户列表信息
 router.post('/list', async (ctx) => {
-    Check.getList(ctx);
-    const data = await Server.getList(ctx);
+    // Check.getList(ctx);
+    // const data = await Server.getList(ctx);
+    // ctx.sendSuccess(data);
+    const userList = await UserMongodb.findList();
+    const data = userList.map(item => {
+        return {
+            username: item.username,
+            roleName: item.roleName,
+        }
+    });
     ctx.sendSuccess(data);
 });
 
