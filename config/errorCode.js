@@ -11,6 +11,12 @@ module.exports = {
         admin_err:      { code: 10008, msg: '必须是管理员才可以' }
     },
 
+    // role
+    role: {
+        role_exist: { code: 500, msg: '角色已经存在' },
+        role_nonentity: { code: 500, msg: '角色不存在' },
+    },
+
     // token ==========================================
     token: {
         failure:        { code: 13002, msg: 'token 失效' },

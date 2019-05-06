@@ -1,7 +1,7 @@
 const ErrorCode = require('../../config/errorCode');
 const Token = require('../../lib/token');
 const MD5 = require('../../lib/md5');
-const UserMongodb = require('../../mongodb/user');
+const UserMongodb = require('../../mongodb/auth');
 
 class Server {
 
@@ -77,7 +77,7 @@ class Server {
     }
 
     static async getList() {
-        let userList = await UserMongodb.findUserList();
+        let userList = await UserMongodb.findList();
         const data = userList.map(item => {
             return {
                 username: item.username,

@@ -6,8 +6,7 @@ class AuthMongdb {
     // 添加用户
     static async addUser (username, password) {
         const param = {
-            username,
-            password
+            username, password
         };
         return new Model(param).save();
     }
@@ -47,7 +46,7 @@ class AuthMongdb {
     }
 
     // 查找用户列表
-    static async findUserList () {
+    static async findList () {
         return await Model.find();
     }
 }
