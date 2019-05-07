@@ -2,7 +2,9 @@ const Router = require('koa-router');
 const Server = require('./server');
 const Check = require('./check');
 const UserMongodb = require('../../mongodb/auth');
+const RoleMongodb = require('../../mongodb/role');
 const MD5 = require('../../lib/md5');
+const Token = require('../../lib/token');
 
 const router = new Router({
     prefix: '/auth'
@@ -17,7 +19,6 @@ router.post('/signup', async (ctx) => {
     const { username, password, roleName } = ctx.vals;
     const MD5password = MD5(password);
     const userData = await UserMongodb.findUser(username);
-    console.log(roleName);
     if (userData) {
         throw ErrorCode.admin.user_exist;
     }
@@ -48,8 +49,17 @@ router.post('/delete', async (ctx) => {
 
 // 获取用户信息
 router.post('/info', async (ctx) => {
-    Check.getUser(ctx);
-    const data = await Server.getUser(ctx);
+    // Check.getUser(ctx);
+    // const data = await Server.getUser(ctx);
+    // ctx.sendSuccess(data);
+    const token = ctx.request.header.token;
+    const user = await Token.getUser(token);
+    const roleName = user.roleName;
+    const roleData = await RoleMongodb.findRole(roleName);
+    const data = {
+        username: user.username,
+        menuList: roleData.roleMenuList,
+    };
     ctx.sendSuccess(data);
 });
 
