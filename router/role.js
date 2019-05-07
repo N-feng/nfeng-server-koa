@@ -1,15 +1,19 @@
 const Router = require('koa-router');
-const Server = require('./server');
-const Check = require('./check');
-const RoleMongodb = require('../../mongodb/role');
+const RoleMongodb = require('../mongodb/role');
+const role = require('../config/role');
 
 const router = new Router({
     prefix: '/role',
 });
 
 router.post('/add', async (ctx) => {
-    Check.add(ctx);
-    const data = await Server.add(ctx);
+    ctx.isStrings(['roleName', 'roleType', 'roleMenu', 'permissions']);
+    const { roleName, roleType, roleMenu, permissions } = ctx.vals;
+    const roleData = await RoleMongodb.findRole(roleName);
+    if(roleData) {
+        throw ErrorCode.role.role_exist;
+    }
+    const data = await RoleMongodb.addRole(roleName, roleType, roleMenu, permissions);
     ctx.sendSuccess(data);
 });
 
@@ -44,15 +48,13 @@ router.post('/detail', async (ctx) => {
     ctx.sendSuccess(data);
 });
 
-router.post('/option', async (ctx) => {
-    Check.getOption(ctx);
-    const data = await Server.getOption(ctx);
+router.post('/list', async (ctx) => {
+    const data = await RoleMongodb.findList();
     ctx.sendSuccess(data);
 });
 
-router.post('/list', async (ctx) => {
-    Check.getList(ctx);
-    const data = await Server.getList(ctx);
+router.post('/option', async (ctx) => {
+    const data = role;
     ctx.sendSuccess(data);
 });
 
