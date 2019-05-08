@@ -1,8 +1,6 @@
-const fs = require('fs')
-const Config = require('../../config/index');
-const NFParameterCheck = require('./NFParameterCheck');
+// const Config = require('../../config/index');
 
-const logger = (ctx, next) => {
+function Send(ctx) {
 
     /**
      * 发送html文件
@@ -21,16 +19,18 @@ const logger = (ctx, next) => {
             code: 200,
             msg: msg
         };
-        if (Config.debug) {
-            console.log(body)
-        }
+        // if (Config.debug) {
+        //     console.log(body)
+        // }
         // WLogs.trace(`--> ${JSON.stringify(body)}`)
         ctx.response.body = body;
     };
 
-    NFParameterCheck(ctx);
+}
 
-    return next();
+module.exports = function(options) {
+    return async function(ctx, next) {
+        Send(ctx);
+        await next();
+    }
 };
-
-module.exports = logger;

@@ -1,6 +1,6 @@
 const Router = require('koa-router')
-const Server = require('./server')
-const Check = require('./check')
+const Server = require('./global/server')
+const Check = require('./global/check')
 
 /**
  * 路由对象
@@ -9,6 +9,11 @@ const Check = require('./check')
 const router = new Router({
     prefix: '/global'
 })
+
+router.all('*', async (ctx, next) => {
+    ctx.getUser(ctx);
+    await next();
+});
 
 /**
  * 获取凭证
@@ -41,7 +46,10 @@ router.post('/getSignature', async (ctx) => {
  * 获取桶列表
  */
 router.get('/getBucketList', async (ctx) => {
-    Check.getBucketList(ctx)
+    console.log(`-------------------------`);
+    console.log(ctx.request.header.token);
+    console.log(`-------------------------`);
+    ctx.isStrings(['Prefix']);
     const data = await Server.getBucketList(ctx)
     ctx.sendSuccess(data)
 })

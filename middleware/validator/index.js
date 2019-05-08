@@ -41,7 +41,7 @@ function validate(model, rules, callback) {
     });
 }
 
-function KoaValidator (ctx) {
+function KoaValidator(ctx) {
     ctx.getModel = (fileName) => {
         const fn = ctx.request.method === 'GET' ? ctx.validateQuery : ctx.validateBody;
         let obj = {}

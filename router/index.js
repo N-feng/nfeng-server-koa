@@ -1,7 +1,7 @@
 const Router = require('koa-router');
 const role_router = require('./role'); // 角色
 const user_router = require('./auth');  // 用户
-const global_router = require('./global/index'); // 全局
+const global_router = require('./global'); // 全局
 
 const router = new Router({
     // prefix: '/api'

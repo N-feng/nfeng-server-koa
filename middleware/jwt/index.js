@@ -1,12 +1,11 @@
 const jwt = require('jsonwebtoken');
-const NFError = require('../../config/errorCode');
 
 const JWT_KEY = process.env.JWT_KEY;
 
-class TOKEN {
+function TOKEN(ctx) {
 
     // 获取token
-    static getToken(data = {}) {
+    ctx.getToken = (data = {}) => {
         return jwt.sign({
             data: data
         }, JWT_KEY, {
@@ -15,11 +14,12 @@ class TOKEN {
     }
 
     // 获取数据
-    static getUser(token = '') {
+    ctx.getUser = (ctx) => {
+        const token = ctx.request.header.token;
         return new Promise((resolve, reject) => {
             jwt.verify(token, JWT_KEY, function (err, decoded) {
                 if (err) {
-                    reject(NFError.token.outOfDate);
+                    reject({ code: 401, msg: 'token 过时' });
                 } else {
                     resolve(decoded.data);
                 }
@@ -29,4 +29,9 @@ class TOKEN {
 
 }
 
-module.exports = TOKEN;
+module.exports = function (options) {
+    return async function (ctx, next) {
+        TOKEN(ctx);
+        await next();
+    }
+}

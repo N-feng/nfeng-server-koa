@@ -1,41 +1,28 @@
 const Koa = require('koa');
 const Bouncer = require('koa-bouncer');
+const KoaCors = require('koa2-cors');
 const bodyParser = require('koa-bodyparser');
+const Logger = require('koa-logger');
 const Config = require('./config/index');
+const NFError = require('./middleware/error');
+const Send = require('./middleware/send');
+const Validator = require('./middleware/validator');
+const Jwt = require('./middleware/jwt');
+const fs = require('fs');
 const http = require('http');
 const https = require('https');
-const fs = require('fs');
-const Logger = require('koa-logger');
-const NFKoaExtension = require('./lib/extension/NFKoaExtension');
-const NFError = require('./lib/extension/NFError');
-const KoaCors = require('koa2-cors');
-const KoaValidator = require('./utils/koa-validator/validate');
 
-// mongodb
 require('./mongodb');
 
-// 创建App
 const app = new Koa();
-
-// 错误处理
-app.use(NFError);
-
-// 输出调试打印
-app.use(Logger())
-
-// 跨域
-app.use(KoaCors())
-
-app.use(bodyParser());
-
-// 设置参数检查插件
 app.use(Bouncer.middleware());
-
-// 设置自定义中间件
-app.use(NFKoaExtension);
-
-// 参数验证中间件
-app.use(KoaValidator());
+app.use(KoaCors());
+app.use(bodyParser());
+app.use(Logger());
+app.use(NFError);
+app.use(Send());
+app.use(Validator());
+app.use(Jwt());
 
 // router definition
 const router = require('./router/index');

@@ -11,7 +11,7 @@ router.post('/add', async (ctx) => {
     const { roleName, roleType, roleMenu, permissions } = ctx.vals;
     const roleData = await RoleMongodb.findRole(roleName);
     if(roleData) {
-        throw ErrorCode.role.role_exist;
+        throw { code: 500, msg: '角色已经存在' };
     }
     const data = await RoleMongodb.addRole(roleName, roleType, roleMenu, permissions);
     ctx.sendSuccess(data);
@@ -35,7 +35,7 @@ router.post('/delete', async (ctx) => {
     const { roleName } = ctx.vals;
     const role = await RoleMongodb.delete(roleName);
     if (!role) {
-        throw ErrorCode.role.role_nonentity;
+        throw { code: 500, msg: '角色不存在' };
     }
     const data = { roleName };
     ctx.sendSuccess(data, '删除成功~');

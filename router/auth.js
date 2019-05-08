@@ -1,19 +1,11 @@
 const Router = require('koa-router');
 const UserMongodb = require('../mongodb/auth');
 const RoleMongodb = require('../mongodb/role');
-const ErrorCode = require('../config/errorCode');
 const MD5 = require('../lib/md5');
-const Token = require('../lib/token');
 
 const router = new Router({
     prefix: '/auth'
 });
-
-async function getUser (ctx) {
-    const token = ctx.request.header.token;
-    const user = await Token.getUser(token);
-    return user;
-}
 
 // 添加用户
 router.post('/signup', async (ctx) => {
@@ -22,7 +14,7 @@ router.post('/signup', async (ctx) => {
     const MD5password = MD5(password);
     const userData = await UserMongodb.findUser(username);
     if (userData) {
-        throw ErrorCode.admin.user_exist;
+        throw { code: 10001, msg: '用户已经存在' };
     }
     const data = await UserMongodb.addUser(username, MD5password, roleName);
     ctx.sendSuccess(data, '创建成功!');
@@ -35,17 +27,18 @@ router.post('/login', async (ctx) => {
     const MD5password = MD5(password);
     const userData = await UserMongodb.findUser(username);
     if (!userData) {
-        throw ErrorCode.admin.user_nonentity;
+        throw { code: 10002, msg: '用户不存在' };
     }
     if (userData.loginErrNum > 111) {
-        throw ErrorCode.admin.login_max;
+        throw { code: 10006, msg: '登录错误次数超出上限' };
     }
     if (MD5password != userData.password) {
         UserMongodb.addLoginErr(userData);
-        throw ErrorCode.admin.login_err;
+        throw { code: 10003, msg: '账号或者密码错误' };
     }
     UserMongodb.clearLoginErr(userData);
-    const token = Token.getToken(userData);
+    console.log(userData);
+    const token = ctx.getToken(userData);
     const resData = {
         username: userData.username,
         avatar: userData.avatar
@@ -59,7 +52,7 @@ router.post('/login', async (ctx) => {
 
 // 数据拦截判断用户类型
 router.all('*', async (ctx, next) => {
-    await getUser(ctx);
+    ctx.getUser(ctx);
     await next();
 });
 
@@ -69,7 +62,7 @@ router.post('/delete', async (ctx) => {
     const { username } = ctx.vals;
     const user = await UserMongodb.delete(username);
     if (!user) {
-        throw ErrorCode.admin.user_nonentity;
+        throw { code: 10002, msg: '用户不存在' };
     }
     const data = {
         username: user.username
@@ -79,7 +72,7 @@ router.post('/delete', async (ctx) => {
 
 // 获取用户信息
 router.post('/info', async (ctx) => {
-    const user = await getUser(ctx);
+    const user = await ctx.getUser(ctx);
     const roleName = user.roleName;
     const roleData = await RoleMongodb.findRole(roleName);
     const data = {

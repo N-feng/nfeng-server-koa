@@ -8,8 +8,7 @@
       "lib",
       "mongodb",
       "router",
-      "utils",
-      "nfeng-utils"
+      "middleware"
     ],
     "env": {
       "NODE_ENV": "production"

@@ -1,7 +1,5 @@
 const bouncer = require('koa-bouncer');
-const ErrorCode = require('../../config/errorCode');
 const { debug } = require('../../config/index');
-// const WLogs = require('../../logs/index');
 
 const logger = async (ctx, next) => {
     // 错误处理
@@ -19,7 +17,7 @@ const logger = async (ctx, next) => {
         if (err instanceof bouncer.ValidationError) {
             ctx.status = 200;
             ctx.response.body = {
-                code: ErrorCode.parameterErr.code,
+                code: 14100,
                 msg: err.bouncer.message
             }
         }
@@ -27,7 +25,7 @@ const logger = async (ctx, next) => {
         else if (err.constructor.name === 'MongooseError') {
             ctx.status = 200;
             ctx.response.body = {
-                code: ErrorCode.mongoErr.code,
+                code: 14200,
                 msg: err
             }
         }
