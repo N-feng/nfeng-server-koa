@@ -1,4 +1,4 @@
-const cdn = require('../../lib/cdn/index')
+// const cdn = require('../../lib/cdn/index')
 
 class Server {
     constructor() {}
@@ -25,11 +25,6 @@ class Server {
 
     static async getSignature (ctx) {
         const baseData = cdn.getSignature(ctx.vals)
-        return baseData
-    }
-
-    static async getBucketList (ctx) {
-        const baseData = await cdn.getBucketList(ctx.vals)
         return baseData
     }
 
