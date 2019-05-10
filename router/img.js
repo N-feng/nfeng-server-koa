@@ -11,7 +11,9 @@ const router = new Router({
 })
 
 router.all('*', async (ctx, next) => {
-    ctx.getUser(ctx);
+    const userData = await ctx.getUser(ctx);
+    const { permissions } = userData;
+    ctx.checkApi(ctx, permissions);
     await next();
 });
 

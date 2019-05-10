@@ -19,7 +19,7 @@ module.exports = {
     ],
     menuList: [
         {
-            path: '/auth/landing',
+            path: '/public/landing',
             name: 'landing',
             title: '登陆页',
             id: 100000,
@@ -68,19 +68,9 @@ module.exports = {
             title: '用户列表',
         },
         {
-            path: '/role',
-            name: 'role',
-            title: '角色管理',
-        },
-        {
             path: '/role/list',
             name: 'roleList',
             title: '角色列表',
-        },
-        {
-            path: '/role/create',
-            name: 'roleCreate',
-            title: '角色创建',
         },
         {
             path: '/role/detail',
@@ -96,6 +86,11 @@ module.exports = {
             path: '/role/delete',
             name: 'roleDelete',
             title: '角色删除',
+        },
+        {
+            path: '/img/list',
+            name: 'imgList',
+            title: '图片列表',
         },
     ]
 }
