@@ -39,23 +39,23 @@ module.exports = {
             id: 100001,
             parentId: 0,
         },
+        // {
+        //     path: '/role/list',
+        //     name: 'roleList',
+        //     title: '角色列表',
+        //     id: 110000,
+        //     parentId: 100001,
+        // },
+        // {
+        //     path: '/role/create',
+        //     name: 'roleCreate',
+        //     title: '角色创建',
+        //     id: 110001,
+        //     parentId: 100001,
+        // },
         {
-            path: '/role/list',
-            name: 'roleList',
-            title: '角色列表',
-            id: 110000,
-            parentId: 100001,
-        },
-        {
-            path: '/role/create',
-            name: 'roleCreate',
-            title: '角色创建',
-            id: 110001,
-            parentId: 100001,
-        },
-        {
-            path: 'landinga',
-            name: 'landing',
+            path: '/img/list',
+            name: 'imgList',
             title: '图片管理',
             id: 100003,
             parentId: 0,
@@ -86,6 +86,16 @@ module.exports = {
             path: '/role/detail',
             name: 'roleDetail',
             title: '角色编辑',
+        },
+        {
+            path: '/role/save',
+            name: 'roleSave',
+            title: '角色保存',
+        },
+        {
+            path: '/role/delete',
+            name: 'roleDelete',
+            title: '角色删除',
         },
     ]
 }
