@@ -18,12 +18,6 @@ class Check {
         ctx.nf_validate.isStrings(['Key', 'Method']);
     }
     /**
-     * 获取桶列表
-     */
-    static getBucketList(ctx) {
-        ctx.nf_validate.isStrings(['Prefix']);
-    }
-    /**
      * 删除文件
      */
     static deleteObject(ctx) {

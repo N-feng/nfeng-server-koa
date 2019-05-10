@@ -4,11 +4,12 @@ const KoaCors = require('koa2-cors');
 const bodyParser = require('koa-bodyparser');
 const Logger = require('koa-logger');
 const Config = require('./config/index');
+const Cos = require('./middleware/cos');
 const NFError = require('./middleware/error');
-const Utils = require('./middleware/utils');
-const MD5 = require('./middleware/md5');
-const Validator = require('./middleware/validator');
 const Jwt = require('./middleware/jwt');
+const MD5 = require('./middleware/md5');
+const Utils = require('./middleware/utils');
+const Validator = require('./middleware/validator');
 const fs = require('fs');
 const http = require('http');
 const https = require('https');
@@ -20,11 +21,12 @@ app.use(Bouncer.middleware());
 app.use(KoaCors());
 app.use(bodyParser());
 app.use(Logger());
+app.use(Cos());
 app.use(NFError);
-app.use(Utils());
-app.use(MD5());
-app.use(Validator());
 app.use(Jwt());
+app.use(MD5());
+app.use(Utils());
+app.use(Validator());
 
 // router definition
 const router = require('./router/index');
@@ -32,8 +34,8 @@ app.use(router.routes(), router.allowedMethods());
 
 // https 密钥
 const options = {
-  key: fs.readFileSync(Config.ssl.keyPath),
-  cert: fs.readFileSync(Config.ssl.certPath),
+    key: fs.readFileSync(Config.ssl.keyPath),
+    cert: fs.readFileSync(Config.ssl.certPath),
 }
 
 if (Config.debug) {

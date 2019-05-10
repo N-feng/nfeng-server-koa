@@ -7,7 +7,7 @@ const Check = require('./global/check')
  * @type {Router}
  */
 const router = new Router({
-    prefix: '/global'
+    prefix: '/img'
 })
 
 router.all('*', async (ctx, next) => {
@@ -45,10 +45,10 @@ router.post('/getSignature', async (ctx) => {
 /**
  * 获取桶列表
  */
-router.get('/getBucketList', async (ctx) => {
-    ctx.isStrings(['Prefix']);
-    const data = await Server.getBucketList(ctx)
-    ctx.sendSuccess(data)
+router.post('/list', async (ctx) => {
+    ctx.isStrings(['prefix']);
+    const data = await ctx.getBucketList(ctx);
+    ctx.sendSuccess(data);
 })
 
 /**
