@@ -28,7 +28,7 @@ module.exports = {
         {
             path: '/auth/list',
             name: 'authList',
-            title: '用户列表',
+            title: '用户管理',
             id: 100002,
             parentId: 0,
         },
@@ -61,5 +61,31 @@ module.exports = {
             parentId: 0,
         },
     ],
-    permissionsList: []
+    permissionsList: [
+        {
+            path: '/auth/list',
+            name: 'authList',
+            title: '用户列表',
+        },
+        {
+            path: '/role',
+            name: 'role',
+            title: '角色管理',
+        },
+        {
+            path: '/role/list',
+            name: 'roleList',
+            title: '角色列表',
+        },
+        {
+            path: '/role/create',
+            name: 'roleCreate',
+            title: '角色创建',
+        },
+        {
+            path: '/role/detail',
+            name: 'roleDetail',
+            title: '角色编辑',
+        },
+    ]
 }

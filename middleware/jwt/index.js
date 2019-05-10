@@ -19,6 +19,7 @@ function TOKEN(ctx) {
         return new Promise((resolve, reject) => {
             jwt.verify(token, JWT_KEY, function (err, decoded) {
                 if (err) {
+                    console.log(err);
                     reject({ code: 401, msg: 'token 过时' });
                 } else {
                     resolve(decoded.data);

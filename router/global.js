@@ -46,9 +46,6 @@ router.post('/getSignature', async (ctx) => {
  * 获取桶列表
  */
 router.get('/getBucketList', async (ctx) => {
-    console.log(`-------------------------`);
-    console.log(ctx.request.header.token);
-    console.log(`-------------------------`);
     ctx.isStrings(['Prefix']);
     const data = await Server.getBucketList(ctx)
     ctx.sendSuccess(data)

@@ -3,9 +3,9 @@ const Model = require('./model');
 class RoleMongodb {
     constructor() {}
 
-    static async addRole(roleName, roleType, roleMenu, permissions, roleMenuList) {
+    static async addRole(roleName, roleType, roleMenu, permissions) {
         const param = {
-            roleName, roleType, roleMenu, permissions, roleMenuList
+            roleName, roleType, roleMenu, permissions
         };
         return new Model(param).save();
     }
@@ -17,11 +17,11 @@ class RoleMongodb {
         return await Model.findOneAndRemove(param);
     }
 
-    static async updateRole(roleName, roleType, roleMenu, permissions, roleMenuList) {
+    static async updateRole(roleName, roleType, roleMenu, permissions) {
         const param = {
             roleName
         }
-        return await Model.updateOne(param, {roleType, roleMenu, permissions, roleMenuList});
+        return await Model.updateOne(param, {roleType, roleMenu, permissions});
     }
 
     static async findRole(roleName) {
