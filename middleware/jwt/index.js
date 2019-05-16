@@ -9,7 +9,7 @@ function TOKEN(ctx) {
         return jwt.sign({
             data: data
         }, JWT_KEY, {
-            expiresIn: 60 * 60 * 2
+            expiresIn: '48h'
         })
     }
 
