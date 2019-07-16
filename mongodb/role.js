@@ -2,16 +2,16 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const RoleSchema = new Schema({
-    'roleName': {type: String, default: ''},
-    'roleType': {type: String, default: ''},
-    'roleMenu': {type: Array, default: []},
-    'permissions': {type: Array, default: []},
+    'roleName': { type: String, default: '' },
+    'roleType': { type: String, default: '' },
+    'roleMenu': { type: Array, default: [] },
+    'permissions': { type: Array, default: [] },
 });
 
 const RoleModel = mongoose.model('RoleModel', RoleSchema, 'role');
 
 class RoleMongodb {
-    constructor() {}
+    constructor() { }
 
     static async addRole(roleName, roleType, roleMenu, permissions) {
         const param = {
@@ -31,7 +31,7 @@ class RoleMongodb {
         const param = {
             roleName
         }
-        return await RoleModel.updateOne(param, {roleType, roleMenu, permissions});
+        return await RoleModel.updateOne(param, { roleType, roleMenu, permissions });
     }
 
     static async findRole(roleName) {

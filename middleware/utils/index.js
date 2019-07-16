@@ -1,4 +1,4 @@
-const roleModel = require('../../config/roleModel');
+// const roleModel = require('../../config/roleModel');
 
 function Utils(ctx) {
 
@@ -25,37 +25,37 @@ function Utils(ctx) {
         // WLogs.trace(`--> ${JSON.stringify(body)}`)
         ctx.response.body = body;
     };
-    
+
     // 转换菜单
-    ctx.getRoleMenuList = (roleMenu) => {
-        const { menuList } = roleModel;
-        const roleMenuList = roleMenu.map(obj => {
-            let rObj = {};
-            menuList.forEach(item => {
-                if (obj === item.path) {
-                    rObj = item;
-                }
-            });
-            return rObj;
-        });
-        return roleMenuList;
-    }
+    // ctx.getRoleMenuList = (roleMenu) => {
+    //     const { menuList } = roleModel;
+    //     const roleMenuList = roleMenu.map(obj => {
+    //         let rObj = {};
+    //         menuList.forEach(item => {
+    //             if (obj === item.path) {
+    //                 rObj = item;
+    //             }
+    //         });
+    //         return rObj;
+    //     });
+    //     return roleMenuList;
+    // }
 
     // 校验接口
     ctx.checkApi = (ctx, permissions) => {
         const url = ctx.request.url;
-        const found = permissions.find(function(element) {
+        const found = permissions.find(function (element) {
             return element === url;
         });
-        if(!found) {
+        if (!found) {
             throw { code: 403, msg: '你没有权限访问这个接口~' };
         }
     }
 
 }
 
-module.exports = function(options) {
-    return async function(ctx, next) {
+module.exports = function (options) {
+    return async function (ctx, next) {
         Utils(ctx);
         await next();
     }

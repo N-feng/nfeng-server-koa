@@ -1,6 +1,5 @@
 const Router = require('koa-router');
 const UserMongodb = require('../mongodb/auth');
-const RoleMongodb = require('../mongodb/role');
 
 const router = new Router({
     prefix: '/auth'
@@ -8,7 +7,7 @@ const router = new Router({
 
 // 添加用户
 router.post('/signup', async (ctx) => {
-    ctx.isStrings(['username','password','roleName']);
+    ctx.isStrings(['username', 'password', 'roleName']);
     const { username, password, roleName } = ctx.vals;
     const MD5password = ctx.MD5(password);
     const userData = await UserMongodb.findUser(username);
@@ -21,15 +20,14 @@ router.post('/signup', async (ctx) => {
 
 // 登录接口
 router.post('/login', async (ctx) => {
-    ctx.isStrings(['username','password']);
+    ctx.isStrings(['username', 'password']);
     const { username, password } = ctx.vals;
     const MD5password = ctx.MD5(password);
     const userData = await UserMongodb.findUser(username);
-    const { avatar, roleName, loginErrNum } = userData;
     if (!userData) {
         throw { code: 10002, msg: '用户不存在' };
     }
-    if (loginErrNum > 111) {
+    if (userData.loginErrNum > 111) {
         throw { code: 10006, msg: '登录错误次数超出上限' };
     }
     if (MD5password != userData.password) {
@@ -37,13 +35,15 @@ router.post('/login', async (ctx) => {
         throw { code: 10003, msg: '账号或者密码错误' };
     }
     UserMongodb.clearLoginErr(userData);
-    const roleData = await RoleMongodb.findRole(roleName);
-    const { roleMenu, permissions } = roleData;
-    const roleMenuList = ctx.getRoleMenuList(roleMenu);
-    const tokenData = Object.assign({}, { username, avatar }, { roleMenu, roleMenuList, permissions});
-    const token = ctx.getToken(tokenData);
+    const token = ctx.getToken(userData);
+    const resData = {
+        username: userData.username,
+        password: userData.password,
+        avatar: userData.avatar,
+        roleName: userData.roleName,
+    }
     const data = {
-        ...tokenData,
+        ...resData,
         token,
     }
     ctx.sendSuccess(data, '登录成功!');
@@ -59,7 +59,7 @@ router.all('*', async (ctx, next) => {
 
 // 删除用户
 router.post('/delete', async (ctx) => {
-    ctx.isStrings(['username','password']);
+    ctx.isStrings(['username', 'password']);
     const { username } = ctx.vals;
     const userData = await UserMongodb.delete(username);
     if (!userData) {
