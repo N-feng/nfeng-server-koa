@@ -10,11 +10,21 @@ router.post('/signup', async (ctx) => {
     ctx.isStrings(['username', 'password', 'roleName']);
     const { username, password, roleName } = ctx.vals;
     const MD5password = ctx.MD5(password);
-    const userData = await UserMongodb.findUser(username);
-    if (userData) {
+    if (await UserMongodb.findUser(username)) {
         throw { code: 10001, msg: '用户已经存在' };
     }
-    const data = await UserMongodb.addUser(username, MD5password, roleName);
+    const userData = await UserMongodb.addUser(username, MD5password, roleName);
+    const token = ctx.getToken(userData);
+    const resData = {
+        username: userData.username,
+        password: userData.password,
+        avatar: userData.avatar,
+        roleName: userData.roleName,
+    }
+    const data = {
+        ...resData,
+        token,
+    }
     ctx.sendSuccess(data, '创建成功!');
 });
 
