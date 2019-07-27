@@ -67,6 +67,19 @@ router.all('*', async (ctx, next) => {
     await next();
 });
 
+router.post('/updateUser', async (ctx) => {
+    ctx.isStrings(['username', 'roleName']);
+    const { username, roleName } = ctx.vals;
+    if (!await UserMongodb.findUser(username)) {
+        throw { code: 10002, msg: '用户不存在' };
+    }
+    const userData = await UserMongodb.updateUser(username, roleName);
+    if (!userData.ok) {
+        throw { code: 500, msg: '修改失败~' }
+    }
+    ctx.sendSuccess('', '修改成功~');
+});
+
 // 删除用户
 router.post('/delete', async (ctx) => {
     ctx.isStrings(['username', 'password']);
@@ -79,6 +92,20 @@ router.post('/delete', async (ctx) => {
         username: userData.username
     }
     ctx.sendSuccess(data, '删除成功!');
+});
+
+router.post('/detail', async (ctx) => {
+    ctx.isStrings(['username']);
+    const { username } = ctx.vals;
+    const userData = await UserMongodb.findUser(username);
+    if (!userData) {
+        throw { code: 10002, msg: '用户不存在' };
+    }
+    const data = {
+        username: userData.username,
+        roleName: userData.roleName,
+    }
+    ctx.sendSuccess(data);
 });
 
 // 获取用户信息

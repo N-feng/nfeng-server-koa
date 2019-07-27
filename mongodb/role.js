@@ -13,6 +13,13 @@ const RoleModel = mongoose.model('RoleModel', RoleSchema, 'role');
 class RoleMongodb {
     constructor() { }
 
+    static async findRole(roleName) {
+        const param = {
+            roleName
+        };
+        return await RoleModel.findOne(param);
+    }
+
     static async addRole(roleName, roleType, roleMenu, permissions) {
         const param = {
             roleName, roleType, roleMenu, permissions
@@ -32,13 +39,6 @@ class RoleMongodb {
             roleName
         }
         return await RoleModel.updateOne(param, { roleType, roleMenu, permissions });
-    }
-
-    static async findRole(roleName) {
-        const param = {
-            roleName
-        };
-        return await RoleModel.findOne(param);
     }
 
     static async findList() {
