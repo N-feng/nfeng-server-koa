@@ -1,6 +1,6 @@
 const Router = require('koa-router')
-const Server = require('./global/server')
-const Check = require('./global/check')
+const Server = require('../global/server')
+const Check = require('../global/check')
 
 /**
  * 路由对象

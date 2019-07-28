@@ -1,17 +1,17 @@
 const Router = require('koa-router');
-const RoleMongodb = require('../mongodb/role');
+const RoleMongodb = require('../../mongodb/role');
 
 const router = new Router({
     prefix: '/role',
 });
 
 // 判断用户访问权限
-router.all('*', async (ctx, next) => {
-    const userData = await ctx.getUser(ctx);
-    //     const { permissions } = userData;
-    //     ctx.checkApi(ctx, permissions);
-    await next();
-});
+// router.all('*', async (ctx, next) => {
+// const userData = await ctx.getUser(ctx);
+//     const { permissions } = userData;
+//     ctx.checkApi(ctx, permissions);
+// await next();
+// });
 
 router.post('/add', async (ctx) => {
     ctx.isStrings(['roleName', 'roleType', 'roleMenu', 'permissions']);
