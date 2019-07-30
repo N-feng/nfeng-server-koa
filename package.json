@@ -17,6 +17,7 @@
     "jade": "~1.11.0",
     "jsonwebtoken": "^8.4.0",
     "koa": "^2.6.2",
+    "koa-body": "^4.1.0",
     "koa-bodyparser": "^2.5.0",
     "koa-bouncer": "^6.0.4",
     "koa-json": "^1.1.3",
