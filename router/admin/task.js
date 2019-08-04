@@ -5,15 +5,6 @@ const router = new Router({
   prefix: '/task'
 });
 
-// 数据拦截判断用户类型
-router.all('*', async (ctx, next) => {
-  const userData = await ctx.getUser(ctx);
-  // console.log(userData)
-  // const { permissions } = userData;
-  // ctx.checkApi(ctx, permissions);
-  await next();
-});
-
 router.post('/add', async (ctx) => {
   ctx.isStrings(['title', 'description', 'date', 'priority']);
   const { title, description, date, priority } = ctx.vals;

@@ -4,7 +4,20 @@ const user_router = require('./auth')  // 用户
 const img_router = require('./img') // 图片
 const task_router = require('./task') // 任务
 const global_router = require('./global') // 全部
-const RoleMongodb = require('../../mongodb/role')
+const jwt = require('jsonwebtoken')
+
+function getUser(token) {
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, process.env.JWT_KEY, function (err, decoded) {
+      if (err) {
+        console.log(err);
+        reject({ code: 401, msg: 'token 过时' });
+      } else {
+        resolve(decoded.data);
+      }
+    })
+  });
+}
 
 const router = new Router({
   prefix: '/admin'
@@ -18,14 +31,11 @@ router.all('*', async (ctx, next) => {
     await next()
     return
   }
-  const userData = await ctx.getUser(ctx)
-  const { roleName } = userData
-  const roleData = await RoleMongodb.findRole(roleName)
-  if (!roleData) {
+  const infoData = await getUser(ctx.request.header.token)
+  if (!infoData) {
     throw { code: 500, msg: '角色不存在' };
   } else {
-    const { permissions } = roleData
-    if (permissions.some(item => item === url)) {
+    if (infoData.permissions.some(item => item === url)) {
       await next()
     } else {
       throw { code: '500', msg: '您没有权限访问此接口哦~' }
