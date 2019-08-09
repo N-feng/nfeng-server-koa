@@ -5,6 +5,7 @@ const img_router = require('./img') // 图片
 const task_router = require('./task') // 任务
 const global_router = require('./global') // 全部
 const jwt = require('jsonwebtoken')
+const baseUrl = '/api'
 
 function getUser(token) {
   return new Promise((resolve, reject) => {
@@ -20,13 +21,13 @@ function getUser(token) {
 }
 
 const router = new Router({
-  prefix: '/admin'
+  prefix: baseUrl
 })
 
 // 数据拦截判断用户类型
 router.all('*', async (ctx, next) => {
   const { url } = ctx.request
-  const whiteList = ['/admin/auth/login', '/admin/auth/signup']
+  const whiteList = [`${baseUrl}/auth/login`, `${baseUrl}/auth/signup`]
   if (whiteList.some(item => item === url)) {
     await next()
     return
