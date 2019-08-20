@@ -1,4 +1,3 @@
-// const roleModel = require('../../config/roleModel');
 const fs = require('fs')
 
 function Utils(ctx) {
@@ -20,10 +19,6 @@ function Utils(ctx) {
             code: 200,
             msg: msg
         };
-        // if (Config.debug) {
-        //     console.log(body)
-        // }
-        // WLogs.trace(`--> ${JSON.stringify(body)}`)
         ctx.response.body = body;
     };
 

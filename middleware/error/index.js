@@ -6,7 +6,6 @@ const logger = async (ctx, next) => {
     try {
         await next();
     } catch (err) {
-        // WLogs.error(err);
         const status = err.code ? 200 : err.statusCode || err.status || 500;
         if (debug && status != 304) {
             console.log('============== 错误 ===============');

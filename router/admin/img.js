@@ -1,7 +1,6 @@
 const Router = require('koa-router')
 const ImgCos = require('../../lib/cos/img')
 const cdnUrl = 'https://cdn.nfeng.net.cn/upload/'
-const send = require('koa-send')
 const fs = require('fs')
 
 /**
@@ -15,35 +14,24 @@ const router = new Router({
 router.post('/add', async (ctx) => {
     const { file } = ctx.request.files
     const { fileName } = ctx.request.body
-    const fileData = await ImgCos.addImg(file, fileName)
-    console.log(fileData)
-    const data = {
-        url: cdnUrl + fileName,
-        name: fileName,
-    }
-    ctx.sendSuccess(data, '上传成功~')
+    await ImgCos.addImg(file, fileName)
+    ctx.sendSuccess('', '上传成功~')
 })
 
 router.post('/delete', async (ctx) => {
     ctx.isStrings(['fileName'])
     const { fileName } = ctx.vals
-    const fileData = await ImgCos.deleteImg(fileName)
-    console.log(fileData)
-    const data = {
-        url: cdnUrl + fileName,
-        name: fileName,
-    }
-    ctx.sendSuccess(data, '删除成功~')
+    await ImgCos.deleteImg(fileName)
+    ctx.sendSuccess('', '删除成功~')
 })
 
 router.get('/get', async (ctx) => {
     ctx.isStrings(['fileName'])
     const { fileName } = ctx.vals
-    const fileData = await ImgCos.getImg(fileName)
-    console.log(fileData)
-    // const path = './static/upload/' + fileName
+    await ImgCos.getImg(fileName)
+    const path = './static/upload/' + fileName
     const htmlFile = await (new Promise(function (resolve, reject) {
-        fs.readFile('./static/upload/' + fileName, (err, data) => {
+        fs.readFile(path, (err, data) => {
             if (err) {
                 console.log('err')
                 reject(err)
@@ -53,18 +41,11 @@ router.get('/get', async (ctx) => {
             }
         })
     }))
-    // ctx.type = 'html';
-    // console.log(htmlFile)
     ctx.set({
         'Content-Type': 'application/octet-stream', //告诉浏览器这是一个二进制文件  
         'Content-Disposition': 'attachment; filename=' + fileName, //告诉浏览器这是一个需要下载的文件  
     });
     ctx.body = htmlFile
-    // ctx.body = fs.createReadStream('./static/upload/' + fileName)
-    // ctx.attachment(path)
-    // console.log(ctx.path)
-    // await send(ctx, path)
-    // ctx.sendSuccess(data)
 })
 
 /**
@@ -76,11 +57,12 @@ router.post('/list', async (ctx) => {
         const name = item.Key.replace('upload/', '')
         const url = cdnUrl + name
         const thumbUrl = cdnUrl + name
+        const updateTime = item.LastModified
         return {
             name,
-            status: 'done',
             url,
             thumbUrl,
+            updateTime,
         }
     })
     ctx.sendSuccess(data);

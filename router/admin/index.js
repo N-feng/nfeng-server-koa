@@ -27,10 +27,11 @@ const router = new Router({
 
 // 数据拦截判断用户类型
 router.all('*', async (ctx, next) => {
-  const url = ctx.request.url.indexOf('?') === -1 // 区分get/post请求
-    ? ctx.request.url // post请求拿到的地址
-    : ctx.request.url.substring(0, ctx.request.url.indexOf('?')) // get请求拿到的地址
-  const whiteList = [`${baseUrl}/auth/login`, `${baseUrl}/auth/signup`, `${baseUrl}/img/get`] // 白名单
+  const indexOf = ctx.request.url.indexOf('?')
+  const url = indexOf === -1 // 区分get/post请求 
+    ? ctx.request.url.replace(baseUrl, '') // post请求拿到的地址
+    : ctx.request.url.substring(baseUrl.length, indexOf) // get请求拿到的地址
+  const whiteList = ['/auth/login', '/auth/signup', '/img/get'] // 白名单
   if (whiteList.some(item => item === url)) {
     await next()
     return
