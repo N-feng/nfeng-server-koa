@@ -33,7 +33,8 @@ router.post('/update', async (ctx) => {
   if (!await NoteMongodb.find(noteId)) {
     throw { code: 10002, msg: '笔记不存在' }
   }
-  const taskData = await NoteMongodb.update(noteId, title, content)
+  const updateTime = new Date().getTime()
+  const taskData = await NoteMongodb.update(noteId, title, content, updateTime)
   if (!taskData.ok) {
     throw { code: 500, msg: '修改失败~' }
   }

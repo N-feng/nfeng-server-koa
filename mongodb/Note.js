@@ -24,9 +24,9 @@ class NoteMongodb {
     return await Model.findOneAndRemove(param);
   }
 
-  static async update(noteId, title, content) {
+  static async update(noteId, title, content, updateTime) {
     const param = { _id: ObjectId(noteId) }
-    return await Model.updateOne(param, { title, content })
+    return await Model.updateOne(param, { title, content, updateTime })
   }
 
   static async find(noteId) {

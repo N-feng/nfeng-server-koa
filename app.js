@@ -11,6 +11,7 @@ const Validator = require('./middleware/validator')
 const fs = require('fs')
 const http = require('http')
 const https = require('https')
+const Static = require("koa-static")
 const Path = require('path')
 
 require('./mongodb')
@@ -36,6 +37,7 @@ app.use(Logger())
 app.use(NFError)
 app.use(Utils())
 app.use(Validator())
+app.use(Static(Path.join(__dirname, 'static')))
 
 // router definition
 const router = require('./router/index')
