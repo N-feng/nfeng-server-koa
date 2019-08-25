@@ -8,9 +8,9 @@ const global_router = require('./global') // 全部
 const jwt = require('jsonwebtoken')
 const baseUrl = '/api'
 
-function getUser(token) {
+function getUser(TokenData) {
   return new Promise((resolve, reject) => {
-    jwt.verify(token, process.env.JWT_KEY, function (err, decoded) {
+    jwt.verify(TokenData, process.env.JWT_KEY, function (err, decoded) {
       if (err) {
         console.log(err);
         reject({ code: 401, msg: 'token 过时' });
@@ -31,12 +31,15 @@ router.all('*', async (ctx, next) => {
   const url = indexOf === -1 // 区分get/post请求 
     ? ctx.request.url.replace(baseUrl, '') // post请求拿到的地址
     : ctx.request.url.substring(baseUrl.length, indexOf) // get请求拿到的地址
-  const whiteList = ['/auth/login', '/auth/signup', '/img/get'] // 白名单
+  const whiteList = ['/auth/login', '/auth/signup'] // 白名单
   if (whiteList.some(item => item === url)) {
     await next()
     return
   }
-  const infoData = await getUser(ctx.request.header.token)
+  const TokenKey = 'Nfeng-Token'
+  const TokenData = ctx.cookies.get(TokenKey)
+  console.log(TokenData)
+  const infoData = await getUser(TokenData)
   if (!infoData) {
     throw { code: 500, msg: '角色不存在' };
   } else {
