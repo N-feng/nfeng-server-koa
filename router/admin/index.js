@@ -38,7 +38,6 @@ router.all('*', async (ctx, next) => {
   }
   const TokenKey = 'Nfeng-Token'
   const TokenData = ctx.cookies.get(TokenKey)
-  console.log(TokenData)
   const infoData = await getUser(TokenData)
   if (!infoData) {
     throw { code: 500, msg: '角色不存在' };
