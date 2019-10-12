@@ -9,7 +9,7 @@ const NoteSchema = new Schema({
   'updateTime': { type: Number, default: 0 },
 });
 
-const Model = mongoose.model('Note', NoteSchema, 'Note');
+const Model = mongoose.model('Note', NoteSchema, 'note');
 
 class NoteMongodb {
   constructor() { }
