@@ -1,5 +1,5 @@
 const Router = require('koa-router');
-const NoteMongodb = require('../../mongodb/note');
+const NoteMongodb = require('../../mongodb/note.js');
 
 const router = new Router({
   prefix: '/note'
