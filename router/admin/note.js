@@ -1,12 +1,12 @@
-const Router = require("koa-router");
-const NoteMongodb = require("../../mongodb/note");
+const Router = require('koa-router');
+const NoteMongodb = require('../../mongodb/note');
 
 const router = new Router({
-  prefix: "/note"
+  prefix: '/note'
 });
 
-router.post("/add", async ctx => {
-  ctx.isStrings(["title", "content"]);
+router.post('/add', async ctx => {
+  ctx.isStrings(['title', 'content']);
   const { title, content } = ctx.vals;
   const NoteData = await NoteMongodb.add(title, content);
   const resData = {
@@ -17,36 +17,36 @@ router.post("/add", async ctx => {
   const data = {
     ...resData
   };
-  ctx.sendSuccess(data, "创建成功!");
+  ctx.sendSuccess(data, '创建成功!');
 });
 
-router.post("/delete", async ctx => {
-  ctx.isStrings(["noteId"]);
+router.post('/delete', async ctx => {
+  ctx.isStrings(['noteId']);
   const { noteId } = ctx.vals;
   const taskData = await NoteMongodb.delete(noteId);
-  ctx.sendSuccess(taskData, "删除成功!");
+  ctx.sendSuccess(taskData, '删除成功!');
 });
 
-router.post("/update", async ctx => {
-  ctx.isStrings(["noteId", "title", "content"]);
+router.post('/update', async ctx => {
+  ctx.isStrings(['noteId', 'title', 'content']);
   const { noteId, title, content } = ctx.vals;
   if (!(await NoteMongodb.find(noteId))) {
-    throw { code: 10002, msg: "笔记不存在" };
+    throw { code: 10002, msg: '笔记不存在' };
   }
   const updateTime = new Date().getTime();
   const taskData = await NoteMongodb.update(noteId, title, content, updateTime);
   if (!taskData.ok) {
-    throw { code: 500, msg: "修改失败~" };
+    throw { code: 500, msg: '修改失败~' };
   }
-  ctx.sendSuccess("", "修改成功~");
+  ctx.sendSuccess('', '修改成功~');
 });
 
-router.post("/detail", async ctx => {
-  ctx.isStrings(["noteId"]);
+router.post('/detail', async ctx => {
+  ctx.isStrings(['noteId']);
   const { noteId } = ctx.vals;
   const taskData = await NoteMongodb.find(noteId);
   if (!taskData) {
-    throw { code: 500, msg: "任务不存在" };
+    throw { code: 500, msg: '任务不存在' };
   }
   const data = {
     noteId: taskData._id,
@@ -58,7 +58,7 @@ router.post("/detail", async ctx => {
   ctx.sendSuccess(data);
 });
 
-router.post("/list", async ctx => {
+router.post('/list', async ctx => {
   const noteList = await NoteMongodb.list();
   const data = noteList.map(item => {
     return {
