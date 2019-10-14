@@ -4,6 +4,7 @@ const user_router = require("./auth"); // 用户
 const img_router = require("./img"); // 图片
 const task_router = require("./task"); // 任务
 const note_router = require("./note"); // 笔记
+const project_router = require('./project') // 项目
 const global_router = require("./global"); // 全部
 const jwt = require("jsonwebtoken");
 const baseUrl = "/api";
@@ -56,6 +57,7 @@ router.use(role_router.routes(), role_router.allowedMethods());
 router.use(img_router.routes(), img_router.allowedMethods());
 router.use(task_router.routes(), task_router.allowedMethods());
 router.use(note_router.routes(), note_router.allowedMethods());
+router.use(project_router.routes(), project_router.allowedMethods())
 router.use(global_router.routes(), global_router.allowedMethods());
 
 module.exports = router;

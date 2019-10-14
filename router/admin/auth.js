@@ -41,7 +41,7 @@ router.post('/signup', async (ctx) => {
     ...infoData,
     token,
   }
-  ctx.sendSuccess(data, '创建成功!')
+  ctx.sendSuccess(data, 'create success!')
 })
 
 // 登录接口
@@ -88,7 +88,7 @@ router.post('/delete', async (ctx) => {
   const data = {
     username: userData.username
   }
-  ctx.sendSuccess(data, '删除成功!')
+  ctx.sendSuccess(data, 'delete success!')
 })
 
 router.post('/update', async (ctx) => {
@@ -99,9 +99,9 @@ router.post('/update', async (ctx) => {
   }
   const userData = await UserMongodb.updateUser(username, roleName)
   if (!userData.ok) {
-    throw { code: 500, msg: '修改失败~' }
+    throw { code: 500, msg: 'update fail~' }
   }
-  ctx.sendSuccess('', '修改成功~')
+  ctx.sendSuccess('', 'update success~')
 })
 
 router.post('/detail', async (ctx) => {

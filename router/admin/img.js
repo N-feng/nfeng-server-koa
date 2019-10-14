@@ -15,14 +15,15 @@ router.post('/add', async (ctx) => {
     const { file } = ctx.request.files
     const { fileName } = ctx.request.body
     await ImgCos.addImg(file, fileName)
-    ctx.sendSuccess('', '上传成功~')
+    const data = cdnUrl + fileName
+    ctx.sendSuccess(data, '上传成功~')
 })
 
 router.post('/delete', async (ctx) => {
     ctx.isStrings(['fileName'])
     const { fileName } = ctx.vals
     await ImgCos.deleteImg(fileName)
-    ctx.sendSuccess('', '删除成功~')
+    ctx.sendSuccess('', 'delete success~')
 })
 
 router.get('/get', async (ctx) => {

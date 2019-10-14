@@ -19,21 +19,21 @@ router.post('/add', async (ctx) => {
   const data = {
     ...resData,
   }
-  ctx.sendSuccess(data, '创建成功!');
+  ctx.sendSuccess(data, 'create success!');
 })
 
 router.post('/delete', async (ctx) => {
   ctx.isStrings(['taskId']);
   const { taskId } = ctx.vals;
   const taskData = await TaskMongodb.delete(taskId);
-  ctx.sendSuccess(taskData, '删除成功!');
+  ctx.sendSuccess(taskData, 'delete success!');
 });
 
 router.post('/update', async (ctx) => {
   ctx.isStrings(['taskId', 'title', 'description', 'date', 'priority'])
   const { taskId, title, description, date, priority } = ctx.vals
   const taskData = await TaskMongodb.update(taskId, title, description, date, priority)
-  ctx.sendSuccess(taskData, '修改成功~')
+  ctx.sendSuccess(taskData, 'update success~')
 })
 
 router.post('/detail', async (ctx) => {

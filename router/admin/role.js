@@ -13,7 +13,7 @@ router.post('/add', async (ctx) => {
         throw { code: 500, msg: '角色已经存在' };
     }
     const data = await RoleMongodb.addRole(roleName, roleType, roleMenu, permissions);
-    ctx.sendSuccess(data, '创建成功~');
+    ctx.sendSuccess(data, 'create success~');
 });
 
 router.post('/delete', async (ctx) => {
@@ -24,7 +24,7 @@ router.post('/delete', async (ctx) => {
         throw { code: 500, msg: '角色不存在' };
     }
     const data = { roleName };
-    ctx.sendSuccess(data, '删除成功~');
+    ctx.sendSuccess(data, 'delete success~');
 });
 
 router.post('/update', async (ctx) => {
@@ -35,7 +35,7 @@ router.post('/update', async (ctx) => {
         throw { code: 500, msg: '角色不存在' };
     }
     await RoleMongodb.updateRole(roleName, roleType, roleMenu, permissions);
-    ctx.sendSuccess(roleData, '修改成功~');
+    ctx.sendSuccess(roleData, 'update success~');
 });
 
 router.post('/detail', async (ctx) => {

@@ -17,14 +17,14 @@ router.post('/add', async ctx => {
   const data = {
     ...resData
   };
-  ctx.sendSuccess(data, '创建成功!');
+  ctx.sendSuccess(data, 'create success!');
 });
 
 router.post('/delete', async ctx => {
   ctx.isStrings(['noteId']);
   const { noteId } = ctx.vals;
   const taskData = await NoteMongodb.delete(noteId);
-  ctx.sendSuccess(taskData, '删除成功!');
+  ctx.sendSuccess(taskData, 'delete success!');
 });
 
 router.post('/update', async ctx => {
@@ -36,9 +36,9 @@ router.post('/update', async ctx => {
   const updateTime = new Date().getTime();
   const taskData = await NoteMongodb.update(noteId, title, content, updateTime);
   if (!taskData.ok) {
-    throw { code: 500, msg: '修改失败~' };
+    throw { code: 500, msg: 'update fail~' };
   }
-  ctx.sendSuccess('', '修改成功~');
+  ctx.sendSuccess('', 'update success~');
 });
 
 router.post('/detail', async ctx => {
