@@ -4,7 +4,7 @@ const ObjectId = require('mongoose').Types.ObjectId
 
 const NoteSchema = new Schema({
   'title': { type: String, default: '' },
-  'description': { type: String, default: '' },
+  'link': { type: String, default: '' },
   'content': { type: String, default: '' },
   'logo': { type: String, default: '' },
   'createTime': { type: Date, default: new Date() },
@@ -16,8 +16,8 @@ const Model = mongoose.model('Project', NoteSchema, 'Project');
 class ProjectMongodb {
   constructor() { }
 
-  static async add({ title, description, content, logo }) {
-    const param = { title, description, content, logo };
+  static async add({ title, link, content, logo }) {
+    const param = { title, link, content, logo };
     return new Model(param).save();
   }
 
@@ -26,10 +26,9 @@ class ProjectMongodb {
     return await Model.findOneAndRemove(param);
   }
 
-  static async update({ projectId, title, description, content, logo, updateTime }) {
+  static async update({ projectId, title, link, content, logo, updateTime }) {
     const param = { _id: ObjectId(projectId) }
-    console.log(description)
-    return await Model.updateOne(param, { title, description, content, logo, updateTime })
+    return await Model.updateOne(param, { title, link, content, logo, updateTime })
   }
 
   static async find(projectId) {

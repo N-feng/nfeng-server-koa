@@ -6,13 +6,12 @@ const router = new Router({
 });
 
 router.post('/add', async ctx => {
-  ctx.isStrings(['title', 'description', 'content', 'logo']);
-  const { title, description, content, logo } = ctx.vals;
-  const projectData = await ProjectMongodb.add({ title, description, content, logo });
+  ctx.isStrings(['title', 'link', 'content', 'logo']);
+  const { title, link, content, logo } = ctx.vals;
+  const projectData = await ProjectMongodb.add({ title, link, content, logo });
   const projectId = projectData._id
-  // const { title, description, content, logo } = projectData
   const data = {
-    projectId, title, description, content, logo
+    projectId, title, link, content, logo
   };
   ctx.sendSuccess(data, 'create success!');
 });
@@ -25,13 +24,13 @@ router.post('/delete', async ctx => {
 });
 
 router.post('/update', async ctx => {
-  ctx.isStrings(['projectId', 'title', 'description', 'content', 'logo']);
-  const { projectId, title, description, content, logo } = ctx.vals;
+  ctx.isStrings(['projectId', 'title', 'link', 'content', 'logo']);
+  const { projectId, title, link, content, logo } = ctx.vals;
   if (!(await ProjectMongodb.find(projectId))) {
     throw { code: 10002, msg: 'Note does not exist' };
   }
   const updateTime = new Date().getTime();
-  const projectData = await ProjectMongodb.update({ projectId, title, description, content, logo, updateTime });
+  const projectData = await ProjectMongodb.update({ projectId, title, link, content, logo, updateTime });
   if (!projectData.ok) {
     throw { code: 500, msg: 'update fail~' };
   }
@@ -45,9 +44,9 @@ router.post('/detail', async ctx => {
   if (!projectData) {
     throw { code: 500, msg: '任务不存在' };
   }
-  const { title, description, content, logo, createTime, updateTime } = projectData
+  const { title, link, content, logo, createTime, updateTime } = projectData
   const data = {
-    projectId, title, description, content, logo, createTime, updateTime
+    projectId, title, link, content, logo, createTime, updateTime
   };
   ctx.sendSuccess(data);
 });
@@ -56,9 +55,9 @@ router.post('/list', async ctx => {
   const projectList = await ProjectMongodb.list();
   const data = projectList.map(item => {
     const projectId = item._id
-    const { title, description, content, logo, createTime, updateTime } = item
+    const { title, link, content, logo, createTime, updateTime } = item
     return {
-      projectId, title, description, content, logo, createTime, updateTime
+      projectId, title, link, content, logo, createTime, updateTime
     };
   });
   ctx.sendSuccess(data);
