@@ -99,7 +99,7 @@ router.post('/update', async (ctx) => {
   }
   const userData = await UserMongodb.updateUser(username, roleName)
   if (!userData.ok) {
-    throw { code: 500, msg: 'update fail~' }
+    throw { code: 500, msg: 'update fail' }
   }
   ctx.sendSuccess('', 'update success~')
 })

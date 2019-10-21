@@ -36,7 +36,7 @@ router.post('/update', async ctx => {
   const updateTime = new Date().getTime();
   const taskData = await NoteMongodb.update(noteId, title, content, updateTime);
   if (!taskData.ok) {
-    throw { code: 500, msg: 'update fail~' };
+    throw { code: 500, msg: 'update fail' };
   }
   ctx.sendSuccess('', 'update success~');
 });

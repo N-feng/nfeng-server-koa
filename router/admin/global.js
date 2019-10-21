@@ -10,7 +10,9 @@ router.post('/menus', async (ctx) => {
   const { roleName } = ctx.vals
   const roleData = await RoleMongodb.findRole(roleName)
   if (!roleData) {
-    throw { code: 500, msg: '角色不存在' };
+    throw {
+      code: 500, msg: "role doesn't exist"
+    };
   }
   const data = roleData.roleMenu
   ctx.sendSuccess(data)
