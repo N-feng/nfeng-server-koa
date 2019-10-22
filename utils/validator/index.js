@@ -31,25 +31,27 @@ function validate(rules, value, callback) {
   })
 }
 
-function getModel(ctx, fieldName) {
+function getVals(ctx, arr) {
   const fn = ctx.request.method === 'GET' ? ctx.validateQuery : ctx.validateBody
-  return fn(fieldName).vals
+  arr.forEach(item => fn(item))
+  return ctx.vals
 }
 
-function isString(ctx, fieldName) {
-  const rules = [{ required: true, message: 'Please check your ' + fieldName }]
-  const model = getModel(ctx, fieldName)
-  validate(rules, model[fieldName], (errors) => {
-    if (errors) {
-      throw { code: 200, msg: errors }
-    }
+function isRequired(ctx, arr) {
+  const vals = getVals(ctx, arr)
+  arr.forEach((item) => {
+    const rules = [{ required: true, message: 'Please check your ' + item }]
+    validate(rules, vals[item], (errors) => {
+      if (errors) {
+        throw { code: 200, msg: errors }
+      }
+    })
   })
 }
 
 const validator = {
-  isStrings: (ctx, arr) => {
-    arr.forEach(item => isString(ctx, item))
-  }
+  getVals,
+  isRequired
 }
 
 module.exports = validator

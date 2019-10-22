@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
 
 const auth = {
-  verify: (ctx) => {
+  verify: (ctx, cookies) => {
     const TokenKey = 'Nfeng-Token';
-    const TokenData = ctx.cookies.get(TokenKey);
+    const TokenData = ctx.cookies.get(TokenKey) || cookies;
     if (!TokenData) {
       throw { code: 500, msg: 'token not found' }
     }
@@ -20,7 +20,8 @@ const auth = {
       '/auth/signup',
       '/note/list',
       '/note/detail',
-      '/project/list'
+      '/project/list',
+      '/img/add'
     ]; // 白名单
     return whiteList.some(item => ctx.url.indexOf(item) !== -1)
   },

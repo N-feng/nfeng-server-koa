@@ -11,21 +11,22 @@ const router = new Router({
 })
 
 router.get('/add', async (ctx) => {
-  validator.isStrings(ctx, ['url'])
-  const { url } = ctx.vals
+  validator.isRequired(ctx, ['url'])
+  validator.getVals(ctx, ['cookies'])
+  const { cookies, url } = ctx.vals
+  const payload = auth.verify(ctx, cookies)
+  const { username } = payload.data
   const imgData = await ImgDB.find({ url })
   if (imgData) {
     throw { code: 500, msg: 'This item already exists' }
   }
-  const payload = auth.verify(ctx)
-  const { username } = payload.data
   await ImgDB.add({ url, username })
   const data = { url, username }
   tool.sendSuccess(ctx, data, 'add success')
 })
 
 router.get('/delete', async (ctx) => {
-  validator.isStrings(ctx, ['imgId'])
+  validator.isRequired(ctx, ['imgId'])
   const { imgId } = ctx.vals
   const imgData = await ImgDB.delete(imgId)
   const { name, url, username } = imgData
@@ -34,7 +35,7 @@ router.get('/delete', async (ctx) => {
 })
 
 router.get('/find', async (ctx) => {
-  validator.isStrings(ctx, ['imgId'])
+  validator.isRequired(ctx, ['imgId'])
   const { imgId } = ctx.vals
   const imgData = await ImgDB.find({ _id: imgId })
   const { name, url, username } = imgData

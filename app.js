@@ -1,6 +1,6 @@
 const Koa = require('koa')
-const Bouncer = require('koa-bouncer')
-const KoaCors = require('koa2-cors')
+const bouncer = require('koa-bouncer')
+const cors = require('koa2-cors')
 // const bodyParser = require('koa-bodyparser')
 const koaBody = require('koa-body')
 const Logger = require('koa-logger')
@@ -17,8 +17,8 @@ const Path = require('path')
 require('./mongodb')
 
 const app = new Koa()
-app.use(Bouncer.middleware())
-app.use(KoaCors())
+app.use(bouncer.middleware())
+app.use(cors())
 // app.use(bodyParser())
 app.use(koaBody({
     multipart: true, // 支持文件上传
