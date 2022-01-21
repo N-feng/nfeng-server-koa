@@ -27,7 +27,7 @@
     "koa-static": "^1.5.2",
     "koa-views": "^3.1.0",
     "koa2-cors": "^2.0.6",
-    "log4js": "^3.0.6",
+    "log4js": "^6.4.0",
     "module-alias": "^2.1.0",
     "mongoose": "^5.3.12",
     "path": "^0.12.7"
