@@ -5,3 +5,6 @@ logs/app-err.log
 logs/app-out.log
 env/
 static/upload/
+
+package-lock.json
+yarn.lock
